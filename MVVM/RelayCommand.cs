@@ -11,12 +11,12 @@ namespace MVVM
 {
     class RelayCommand : ICommand
     {
-        private Action<object> _execute;
-        private Func<object, bool> _executeFunc;
+        private Action<object?> _execute;
+        private Func<object?, bool>? _executeFunc;
 
 
 
-        public event EventHandler CanExecuteChanged
+        public event EventHandler? CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
@@ -24,16 +24,16 @@ namespace MVVM
 
 
 
-        public RelayCommand(Action<object> execute, Func<object, bool> executeFunc = null)
+        public RelayCommand(Action<object?> execute, Func<object?, bool>? executeFunc = null)
         {
             _execute = execute;
             _executeFunc = executeFunc;
         }
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return _executeFunc == null || this._executeFunc(parameter);
         }
-        public void Execute(object parameter)
+        public void Execute(object? parameter)
         {
             _execute(parameter);
         }
