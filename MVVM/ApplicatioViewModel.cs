@@ -44,8 +44,8 @@ namespace MVVM
                         {
                             Phones.Remove(phone);
                         }
-                    },
-                    (obj) => Phones.Count > 0));
+                    }));//,
+                    //(obj) => Phones.Count > 1));
             }
         }
         public Phone SelectedPhone 
