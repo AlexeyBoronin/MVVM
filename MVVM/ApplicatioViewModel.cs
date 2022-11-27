@@ -12,11 +12,11 @@ namespace MVVM
 {
     internal class ApplicationViewModel:INotifyPropertyChanged
     {
-        private Phone selectedPhone;
+        Phone? selectedPhone;
 
         public ObservableCollection<Phone> Phones { get; set; }
         //command Add
-        private RelayCommand addCommand;
+        private RelayCommand? addCommand;
         public RelayCommand AddCommand
         {
             get
@@ -24,14 +24,14 @@ namespace MVVM
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        Phone phone = new Phone();
+                        Phone phone = new Phone("","",0);
                         Phones.Insert(0, phone);
                         SelectedPhone = phone;
                     }));
             }
         }
         //command Relay
-        private RelayCommand removeCommand;
+        private RelayCommand? removeCommand;
         public RelayCommand RemoveCommand
         {
             get

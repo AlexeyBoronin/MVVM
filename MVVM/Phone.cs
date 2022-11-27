@@ -14,6 +14,13 @@ namespace MVVM
         private string company;
         private int price;
 
+        public Phone(string title, string company,int price) 
+        {
+            this.title = title;
+            this.company = company;
+            this.price = price;
+        }
+
         public string Title
         {
             get { return title; }
@@ -49,4 +56,7 @@ namespace MVVM
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
+   
 }
+
+
