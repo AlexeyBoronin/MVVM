@@ -31,7 +31,7 @@ namespace MVVM
         }
         public bool CanExecute(object parameter)
         {
-            return _executeFunc == null || CanExecute(parameter);
+            return _executeFunc == null || this._executeFunc(parameter);
         }
         public void Execute(object parameter)
         {
