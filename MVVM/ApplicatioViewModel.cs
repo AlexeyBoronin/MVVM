@@ -24,7 +24,7 @@ namespace MVVM
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        Phone phone = new Phone("","",0);
+                        Phone? phone = new Phone("","",0);
                         Phones.Insert(0, phone);
                         SelectedPhone = phone;
                     }));
@@ -39,7 +39,7 @@ namespace MVVM
                 return removeCommand ??
                     (removeCommand = new RelayCommand(obj =>
                     {
-                        Phone phone = obj as Phone;
+                        Phone? phone = obj as Phone;
                         if (phone != null)
                         {
                             Phones.Remove(phone);
@@ -48,7 +48,26 @@ namespace MVVM
                     (obj) => Phones.Count > 0));
             }
         }
-        public Phone SelectedPhone 
+        private RelayCommand? doubleCommand;
+        public RelayCommand DoubleCommand
+        {
+            get
+            {
+                return doubleCommand ??
+                    (doubleCommand = new RelayCommand(obj =>
+                    {
+                        Phone? phone = obj as Phone;
+                        if (phone != null)
+                        {
+                            Phone phoneCopy = new Phone(phone.Company, phone.Title, phone.Price);
+                            Phones.Insert(0,phoneCopy);
+                        }
+                    }));
+            }
+        }
+
+
+        public Phone? SelectedPhone 
         {
             get { return selectedPhone;}
             set
@@ -62,16 +81,17 @@ namespace MVVM
         {
             Phones = new ObservableCollection<Phone>
             {
-                new Phone{ Title="IPhone 14", Company="Apple", Price=125000 },
-                new Phone{ Title="Galaxy S22 Ultra", Company="Samsung", Price=90000},
-                new Phone{ Title="12 Lite", Company="Xiaomi", Price=35000}
+                new Phone("IPhone 14", "Apple", 125000 ),
+                new Phone("Galaxy S22 Ultra", "Samsung", 90000),
+                new Phone("12 Lite", "Xiaomi", 35000)
             };
         }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
     }
+   
 }
