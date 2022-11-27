@@ -59,7 +59,7 @@ namespace MVVM
                         Phone? phone = obj as Phone;
                         if (phone != null)
                         {
-                            Phone phoneCopy = new Phone(phone.Company, phone.Title, phone.Price);
+                            Phone phoneCopy = new Phone(phone.Title, phone.Company,  phone.Price);
                             Phones.Insert(0,phoneCopy);
                         }
                     }));
