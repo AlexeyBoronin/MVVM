@@ -79,7 +79,7 @@ namespace MVVM
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        Phone phone = new Phone("","",0);
+                        Phone phone = new Phone();
                         Phones.Insert(0, phone);
                         SelectedPhone = phone;
                     }));

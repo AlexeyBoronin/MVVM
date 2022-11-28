@@ -13,7 +13,7 @@ namespace MVVM
         public List<Phone> Open(string filename)
         {
             List<Phone> phones = new List<Phone>();
-            DataContractJsonSerializer jsonFarmatter = new DataContractJsonSerializer(typeof(Phone));
+            DataContractJsonSerializer jsonFarmatter = new DataContractJsonSerializer(typeof(List<Phone>));
             using (FileStream fs = new FileStream (filename, FileMode.OpenOrCreate))
             {
                 phones=jsonFarmatter.ReadObject(fs) as List<Phone>;
@@ -23,7 +23,7 @@ namespace MVVM
 
         public void Save (string filename, List<Phone> phonesList) 
         {
-            DataContractJsonSerializer jsonFarmatter = new DataContractJsonSerializer(typeof(Phone));
+            DataContractJsonSerializer jsonFarmatter = new DataContractJsonSerializer(typeof(List<Phone>));
             using (FileStream fs = new FileStream(filename, FileMode.Create))
             {
                 jsonFarmatter.WriteObject(fs,  phonesList);

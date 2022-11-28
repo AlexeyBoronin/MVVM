@@ -20,6 +20,12 @@ namespace MVVM
             this.company = company;
             this.price = price;
         }
+        public Phone()
+        {
+            title = "";
+            company = "";
+            price = 0;
+        }
 
         public string Title
         {
