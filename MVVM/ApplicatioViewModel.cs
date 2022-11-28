@@ -12,11 +12,65 @@ namespace MVVM
 {
     internal class ApplicationViewModel:INotifyPropertyChanged
     {
-        Phone? selectedPhone;
+        Phone selectedPhone;
+
+        IFileService fileService;
+        IDialogService dialogService;
 
         public ObservableCollection<Phone> Phones { get; set; }
+        //command save file
+        private RelayCommand saveCommand;
+        public RelayCommand SaveCommand
+        {
+            get
+            {
+                return saveCommand ??
+                    (saveCommand = new RelayCommand(obj =>
+                    {
+                        try
+                        {
+                            if (dialogService.SaveFileDialog() == true)
+                            {
+                                fileService.Save(dialogService.FilePath, Phones.ToList());
+                                dialogService.ShowMessage("Файл сохранен");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dialogService.ShowMessage(ex.Message);
+                        }
+                    }));
+            }
+        }
+        //command open file
+        private RelayCommand openCommand;
+        public RelayCommand OpenCommand
+        {
+            get
+            {
+                return openCommand ??
+                    (openCommand = new RelayCommand(obj =>
+                    {
+                        try
+                        {
+                            if (dialogService.OpenFileDialog() == true)
+                            {
+                                var phones=fileService.Open(dialogService.FilePath);
+                                Phones.Clear();
+                                foreach (var p in phones)
+                                    Phones.Add(p);
+                                dialogService.ShowMessage("Файл открыт");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            dialogService.ShowMessage(ex.Message);
+                        }
+                    }));
+            }
+        }
         //command Add
-        private RelayCommand? addCommand;
+        private RelayCommand addCommand;
         public RelayCommand AddCommand
         {
             get
@@ -24,14 +78,14 @@ namespace MVVM
                 return addCommand ??
                     (addCommand = new RelayCommand(obj =>
                     {
-                        Phone? phone = new Phone("","",0);
+                        Phone phone = new Phone("","",0);
                         Phones.Insert(0, phone);
                         SelectedPhone = phone;
                     }));
             }
         }
         //command Relay
-        private RelayCommand? removeCommand;
+        private RelayCommand removeCommand;
         public RelayCommand RemoveCommand
         {
             get
@@ -48,7 +102,7 @@ namespace MVVM
                     (obj) => Phones.Count > 0));
             }
         }
-        private RelayCommand? doubleCommand;
+        private RelayCommand doubleCommand;
         public RelayCommand DoubleCommand
         {
             get
@@ -56,7 +110,7 @@ namespace MVVM
                 return doubleCommand ??
                     (doubleCommand = new RelayCommand(obj =>
                     {
-                        Phone? phone = obj as Phone;
+                        Phone phone = obj as Phone;
                         if (phone != null)
                         {
                             Phone phoneCopy = new Phone(phone.Title, phone.Company,  phone.Price);
@@ -67,7 +121,7 @@ namespace MVVM
         }
 
 
-        public Phone? SelectedPhone 
+        public Phone SelectedPhone 
         {
             get { return selectedPhone;}
             set
@@ -86,7 +140,7 @@ namespace MVVM
                 new Phone("12 Lite", "Xiaomi", 35000)
             };
         }
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
