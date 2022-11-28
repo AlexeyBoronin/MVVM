@@ -12,6 +12,7 @@ namespace MVVM
 {
     internal class ApplicationViewModel:INotifyPropertyChanged
     {
+        
         Phone selectedPhone;
 
         IFileService fileService;
@@ -131,8 +132,10 @@ namespace MVVM
             }
         }
 
-        public ApplicationViewModel()
+        public ApplicationViewModel(IDialogService dialogService, IFileService fileService)
         {
+            this.dialogService = dialogService;
+            this.fileService = fileService;
             Phones = new ObservableCollection<Phone>
             {
                 new Phone("IPhone 14", "Apple", 125000 ),
